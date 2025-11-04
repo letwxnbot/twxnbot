@@ -117,7 +117,10 @@ from bip_utils import Bip44, Bip44Coins, Bip44Changes
 from dotenv import load_dotenv, dotenv_values
 import os, sys
 
-ENV_PATH = os.path.join(os.path.dirname(__file__), ".env")
+from dotenv import load_dotenv
+
+# Try to load .env if it exists, but use system envs if not (Render uses system envs)
+load_dotenv(override=True)
 
 # ensure .env wins over anything exported in your shell/session
 os.environ.pop("BOT_TOKEN", None)
