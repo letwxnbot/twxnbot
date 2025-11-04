@@ -114,17 +114,12 @@ def ensure_db_schema(engine):
 # HD derivation
 from bip_utils import Bip44, Bip44Coins, Bip44Changes
 
-from dotenv import load_dotenv, dotenv_values
+from dotenv import load_dotenv
 import os, sys
 
-from dotenv import load_dotenv
-
-# Try to load .env if it exists, but use system envs if not (Render uses system envs)
+# Load .env if it exists, otherwise fall back to environment variables
 load_dotenv(override=True)
 
-# ensure .env wins over anything exported in your shell/session
-os.environ.pop("BOT_TOKEN", None)
-load_dotenv(dotenv_path=ENV_PATH, override=True)
 
 # (optional) quick debug — leave it for now while testing
 print(f"[env] using: {ENV_PATH} exists={os.path.exists(ENV_PATH)}")
