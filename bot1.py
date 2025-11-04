@@ -120,16 +120,14 @@ import os, sys
 # Load .env if it exists, otherwise fall back to environment variables
 load_dotenv(override=True)
 
-
-# (optional) quick debug — leave it for now while testing
-print(f"[env] using: {ENV_PATH} exists={os.path.exists(ENV_PATH)}")
+# (optional) quick debug — safe version for both local and Render
+print("[env] .env file checked (Render uses system vars if None)")
 print(f"[env] BOT_TOKEN (env): {os.getenv('BOT_TOKEN')!r}")
 
+BOT_TOKEN = os.getenv("BOT_TOKEN") or ""             # REQUIRED
+FERNET_KEY = os.getenv("FERNET_KEY") or ""           # REQUIRED (Fernet base64 key)
 
-BOT_TOKEN   = os.getenv("BOT_TOKEN") or ""           # REQUIRED
-FERNET_KEY       = os.getenv("FERNET_KEY") or ""               # REQUIRED (Fernet base64 key)
 # --- DATABASE PATH FIX FOR LOCAL MAC SETUP ---
-import os
 from sqlalchemy import create_engine
 
 # Store the database in a local "data" folder next to the script
@@ -147,8 +145,6 @@ engine = create_engine(
 )
 
 print(f"✅ Using database at: {db_path}")
-
-
 
 # Admin & stock
 ADMIN_IDS        = set(int(x.strip()) for x in os.getenv("ADMIN_IDS", "").split(",") if x.strip())
